@@ -281,6 +281,10 @@ public class ReactScrollView extends ScrollView implements ReactClippingViewGrou
   @Override
   public void fling(int velocityY) {
     if (mPagingEnabled || mSnapInterval != 0) {
+      ReactScrollViewHelper.emitScrollEvent(
+              this,
+              mOnScrollDispatchHelper.getXFlingVelocity(),
+              mOnScrollDispatchHelper.getYFlingVelocity());
       smoothScrollToPage(velocityY);
     } else {
       if (mScroller != null) {

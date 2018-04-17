@@ -41,7 +41,7 @@ public class OnScrollDispatchHelper {
 
     // Skip the first calculation in each scroll
     if(Math.abs(mXFlingVelocity) < THRESHOLD && Math.abs(mYFlingVelocity) < THRESHOLD) {
-      shouldDispatch = false;
+      shouldDispatch = true;
     }
 
     if (eventTime - mLastScrollEventTimeMs != 0) {
