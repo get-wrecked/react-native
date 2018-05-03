@@ -701,7 +701,6 @@ RCT_SCROLL_EVENT_HANDLER(scrollViewDidZoom, onScroll)
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-  _allowNextScrollNoMatterWhat = YES; // Ensure next scroll event is recorded, regardless of throttle
   RCT_SEND_SCROLL_EVENT(onScrollBeginDrag, nil);
   RCT_FORWARD_SCROLL_EVENT(scrollViewWillBeginDragging:scrollView);
 }
@@ -763,7 +762,7 @@ RCT_SCROLL_EVENT_HANDLER(scrollViewDidZoom, onScroll)
                                  }
                              };
   RCT_SEND_SCROLL_EVENT(onScrollEndDrag, userData);
-  RCT_FORWARD_SCROLL_EVENT(scrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset);
+
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
