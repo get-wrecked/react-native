@@ -153,7 +153,7 @@ var ScrollResponderMixin = {
    * Invoke this from an `onScroll` event.
    */
   scrollResponderHandleScrollShouldSetResponder: function(): boolean {
-    return this.state.isTouching;
+    return false;
   },
 
   /**
@@ -182,13 +182,7 @@ var ScrollResponderMixin = {
    *
    */
   scrollResponderHandleStartShouldSetResponder: function(e: Event): boolean {
-    var currentlyFocusedTextInput = TextInputState.currentlyFocusedField();
 
-    if (this.props.keyboardShouldPersistTaps === 'handled' &&
-      currentlyFocusedTextInput != null &&
-      e.target !== currentlyFocusedTextInput) {
-      return true;
-    }
     return false;
   },
 
@@ -205,16 +199,7 @@ var ScrollResponderMixin = {
    */
   scrollResponderHandleStartShouldSetResponderCapture: function(e: Event): boolean {
     // First see if we want to eat taps while the keyboard is up
-    var currentlyFocusedTextInput = TextInputState.currentlyFocusedField();
-    var {keyboardShouldPersistTaps} = this.props;
-    var keyboardNeverPersistTaps = !keyboardShouldPersistTaps ||
-                                    keyboardShouldPersistTaps === 'never';
-    if (keyboardNeverPersistTaps &&
-      currentlyFocusedTextInput != null &&
-      !isTagInstanceOfTextInput(e.target)) {
-      return true;
-    }
-    return this.scrollResponderIsAnimating();
+    return false;
   },
 
   /**
@@ -300,6 +285,7 @@ var ScrollResponderMixin = {
    * Invoke this from an `onResponderGrant` event.
    */
   scrollResponderHandleResponderGrant: function(e: Event) {
+    console.log("Responder granted");
     this.state.observedScrollSinceBecomingResponder = false;
     this.props.onResponderGrant && this.props.onResponderGrant(e);
     this.state.becameResponderWhileAnimating = this.scrollResponderIsAnimating();
