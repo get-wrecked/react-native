@@ -153,7 +153,10 @@ var ScrollResponderMixin = {
    * Invoke this from an `onScroll` event.
    */
   scrollResponderHandleScrollShouldSetResponder: function(): boolean {
-    return false;
+      if(this.props.disableScrollViewPanResponder) {
+          return false;
+      }
+    return this.state.isTouching;
   },
 
   /**
@@ -183,6 +186,16 @@ var ScrollResponderMixin = {
    */
   scrollResponderHandleStartShouldSetResponder: function(e: Event): boolean {
 
+      if(this.props.disableScrollViewPanResponder) {
+          return false;
+      }
+    var currentlyFocusedTextInput = TextInputState.currentlyFocusedField();
+
+    if (this.props.keyboardShouldPersistTaps === 'handled' &&
+      currentlyFocusedTextInput != null &&
+      e.target !== currentlyFocusedTextInput) {
+      return true;
+    }
     return false;
   },
 
@@ -198,8 +211,20 @@ var ScrollResponderMixin = {
    * Invoke this from an `onStartShouldSetResponderCapture` event.
    */
   scrollResponderHandleStartShouldSetResponderCapture: function(e: Event): boolean {
+      if(this.props.disableScrollViewPanResponder) {
+          return false;
+      }
     // First see if we want to eat taps while the keyboard is up
-    return false;
+    var currentlyFocusedTextInput = TextInputState.currentlyFocusedField();
+    var {keyboardShouldPersistTaps} = this.props;
+    var keyboardNeverPersistTaps = !keyboardShouldPersistTaps ||
+                                    keyboardShouldPersistTaps === 'never';
+    if (keyboardNeverPersistTaps &&
+      currentlyFocusedTextInput != null &&
+      !isTagInstanceOfTextInput(e.target)) {
+      return true;
+    }
+    return this.scrollResponderIsAnimating();
   },
 
   /**
@@ -285,7 +310,6 @@ var ScrollResponderMixin = {
    * Invoke this from an `onResponderGrant` event.
    */
   scrollResponderHandleResponderGrant: function(e: Event) {
-    console.log("Responder granted");
     this.state.observedScrollSinceBecomingResponder = false;
     this.props.onResponderGrant && this.props.onResponderGrant(e);
     this.state.becameResponderWhileAnimating = this.scrollResponderIsAnimating();
