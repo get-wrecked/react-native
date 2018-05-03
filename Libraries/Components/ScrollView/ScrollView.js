@@ -364,6 +364,10 @@ const ScrollView = createReactClass({
      */
     removeClippedSubviews: PropTypes.bool,
     /**
+     * Disables the default scroll view pan responder incaes you want to register all touches with snap intervals
+     */
+    disableScrollViewPanResponder: PropTypes.bool,
+    /**
      * The current scale of the scroll view content. The default value is 1.0.
      * @platform ios
      */
