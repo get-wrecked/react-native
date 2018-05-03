@@ -762,7 +762,7 @@ RCT_SCROLL_EVENT_HANDLER(scrollViewDidZoom, onScroll)
                                  }
                              };
   RCT_SEND_SCROLL_EVENT(onScrollEndDrag, userData);
-
+  RCT_FORWARD_SCROLL_EVENT(scrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset);
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
