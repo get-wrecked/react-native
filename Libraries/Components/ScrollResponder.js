@@ -211,7 +211,7 @@ var ScrollResponderMixin = {
    * Invoke this from an `onStartShouldSetResponderCapture` event.
    */
   scrollResponderHandleStartShouldSetResponderCapture: function(e: Event): boolean {
-      if(this.props.disableScrollViewPanResponder) {
+      if(this.props.disableScroldisableScrollViewPanResponderlViewPanResponder) {
           return false;
       }
     // First see if we want to eat taps while the keyboard is up
